@@ -63,6 +63,7 @@
     <Compile Include="Rendering\RazorMiddleware.cs" />
     <Compile Include="Routing\IRoute.cs" />
     <Compile Include="Routing\IRouteTable.cs" />
+    <Compile Include="Routing\RouteTable.cs" />
     <Compile Include="Routing\SingleFileRoute.cs" />
   </ItemGroup>
   <ItemGroup>
