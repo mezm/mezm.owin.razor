@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 using FluentAssertions;
 
@@ -32,28 +31,14 @@ namespace Mezm.Owin.Razor.Tests.Rendering
         [ExpectedException(typeof(TemplateParsingException))]
         public void RenderFailedCompilationError()
         {
-            UnwrapTaskException(() => renderer.Render("This is @.Model.Text.", new RazorModel { Text = "test" }).Wait());
-            Assert.Fail();
+            ExceptionUtil.UnwrapTaskException(() => renderer.Render("This is @.Model.Text.", new RazorModel { Text = "test" }));
         }
 
         [Test]
         [ExpectedException(typeof(NullReferenceException))]
         public void RenderFailedModelDataIncorrect()
         {
-            UnwrapTaskException(() => renderer.Render("This is @Model.Text.Substring(2).", new RazorModel()).Wait());
-            Assert.Fail();
-        }
-
-        private static void UnwrapTaskException(Action action)
-        {
-            try
-            {
-                action();
-            }
-            catch (AggregateException ex)
-            {
-                throw ex.InnerExceptions.First();
-            }
+            ExceptionUtil.UnwrapTaskException(() => renderer.Render("This is @Model.Text.Substring(2).", new RazorModel()));
         }
 
         public class RazorModel

@@ -70,7 +70,7 @@ namespace Mezm.Owin.Razor.Tests.Routing
             var fileInfo = fileInfoMock.Object;
             fileSystem.Setup(x => x.TryGetFileInfo("views\\recent.cshtml", out fileInfo)).Returns(false);
 
-            route.GetTemplate(new OwinRequest()).Wait();
+            ExceptionUtil.UnwrapTaskException(() => route.GetTemplate(new OwinRequest()));
         }
     }
 }

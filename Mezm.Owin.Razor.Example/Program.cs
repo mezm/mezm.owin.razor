@@ -1,15 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using Microsoft.Owin.Hosting;
 
 namespace Mezm.Owin.Razor.Example
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main()
         {
+            using (WebApp.Start<Startup>(new StartOptions("http://localhost:9999")))
+            {
+                Console.WriteLine("Started at http://localhost:9999");
+                Console.ReadLine();
+            }
         }
     }
 }

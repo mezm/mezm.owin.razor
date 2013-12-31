@@ -48,7 +48,7 @@ namespace Mezm.Owin.Razor.Routing
             return string.Equals(request.Path, urlPath, StringComparison.OrdinalIgnoreCase);
         }
 
-        public Task<string> GetTemplate(OwinRequest request)
+        public async Task<string> GetTemplate(OwinRequest request)
         {
             IFileInfo fileInfo;
             if (!fileSystem.TryGetFileInfo(filename, out fileInfo))
@@ -58,7 +58,7 @@ namespace Mezm.Owin.Razor.Routing
 
             using (var reader = new StreamReader(fileInfo.CreateReadStream()))
             {
-                return reader.ReadToEndAsync();
+                return await reader.ReadToEndAsync();
             }
         }
     }
