@@ -1,12 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.IO;
-using System.Text;
 
 using FluentAssertions;
 
 using Mezm.Owin.Razor.Routing;
-
-using Microsoft.Owin.FileSystems;
 
 using Moq;
 
@@ -21,13 +17,13 @@ namespace Mezm.Owin.Razor.Tests.Routing
     {
         private SingleFileRoute route;
 
-        private Mock<IFileSystem> fileSystem;
+        private Mock<IRequestHandler> requestHandler;
         
         [SetUp]
         public void Init()
         {
-            fileSystem = new Mock<IFileSystem>();
-            route = new SingleFileRoute(fileSystem.Object, "test", "/blog/recent", "views\\recent.cshtml");
+            requestHandler = new Mock<IRequestHandler>();
+            route = new SingleFileRoute("/blog/recent", requestHandler.Object);
         }
 
         [Test]
@@ -49,28 +45,9 @@ namespace Mezm.Owin.Razor.Tests.Routing
         }
 
         [Test]
-        public void GetRequestSuccess()
+        public void GetHandler()
         {
-            var fileInfoMock = new Mock<IFileInfo>();
-            var fileInfo = fileInfoMock.Object;
-            fileSystem.Setup(x => x.TryGetFileInfo("views\\recent.cshtml", out fileInfo)).Returns(true);
-
-            using (var stream = new MemoryStream(Encoding.Default.GetBytes("The test template @Model.Name.")))
-            {
-                fileInfoMock.Setup(x => x.CreateReadStream()).Returns(stream);
-                route.GetTemplate(new OwinRequest()).Result.Should().Be("The test template @Model.Name.");
-            }
-        }
-
-        [Test]
-        [ExpectedException(typeof(IOException))]
-        public void GetRequestFailed()
-        {
-            var fileInfoMock = new Mock<IFileInfo>();
-            var fileInfo = fileInfoMock.Object;
-            fileSystem.Setup(x => x.TryGetFileInfo("views\\recent.cshtml", out fileInfo)).Returns(false);
-
-            ExceptionUtil.UnwrapTaskException(() => route.GetTemplate(new OwinRequest()));
+            route.GetHandler(new OwinRequest()).Should().Be(requestHandler.Object);
         }
     }
 }

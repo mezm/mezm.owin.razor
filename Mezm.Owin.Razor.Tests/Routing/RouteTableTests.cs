@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 
 using FluentAssertions;
 
@@ -29,24 +30,39 @@ namespace Mezm.Owin.Razor.Tests.Routing
         }
         
         [Test]
-        public void AddAndGetFileRoute()
+        public void AddRouteAndGetFileHandler()
         {
-            table.AddFileRoute("test", "/a/b", "views\\test.cshtml");
+            var fileInfo = new Mock<IFileInfo>();
+            var fileInfoObject = fileInfo.Object;
+            fileSystem.Setup(x => x.TryGetFileInfo("views\\test.cshtml", out fileInfoObject)).Returns(true);
+
+            table.AddFileRoute("/a/b", "views\\test.cshtml");
             
-            var route = table.GetRoute(new OwinRequest(new Dictionary<string, object>()) { Path = "/a/b" });
-            route.Should().NotBeNull();
-            route.Name.Should().Be("test");
+            var handler = table.GetHandler(new OwinRequest(new Dictionary<string, object>()) { Path = "/a/b" });
+            handler.Should().NotBeNull().And.BeOfType<SimpleRequestHandler>();
+        }
+
+        [Test]
+        [ExpectedException(typeof(IOException))]
+        public void AddFileRouteForNotExistingFile()
+        {
+            IFileInfo fileInfoObject;
+            fileSystem.Setup(x => x.TryGetFileInfo("views\\test.cshtml", out fileInfoObject)).Returns(false);
+
+            table.AddFileRoute("/a/b", "views\\test.cshtml");
         }
 
         [Test]
         public void AddAndGetCustomRoute()
         {
             var route = new Mock<IRoute>();
+            var handler = new Mock<IRequestHandler>();
             route.Setup(x => x.CanRoute(It.IsAny<OwinRequest>())).Returns(true);
+            route.Setup(x => x.GetHandler(It.IsAny<OwinRequest>())).Returns(handler.Object);
 
             table.AddRoute(route.Object);
 
-            table.GetRoute(new OwinRequest()).Should().Be(route.Object);
+            table.GetHandler(new OwinRequest()).Should().Be(handler.Object);
         }
 
         [Test]
@@ -56,19 +72,23 @@ namespace Mezm.Owin.Razor.Tests.Routing
             var route2 = new Mock<IRoute>();
             var route3 = new Mock<IRoute>();
 
+            var handler = new Mock<IRequestHandler>();
+
             route1.Setup(x => x.CanRoute(It.IsAny<OwinRequest>())).Returns(false);
             route2.Setup(x => x.CanRoute(It.IsAny<OwinRequest>())).Returns(true);
             route3.Setup(x => x.CanRoute(It.IsAny<OwinRequest>())).Returns(true);
 
+            route2.Setup(x => x.GetHandler(It.IsAny<OwinRequest>())).Returns(handler.Object);
+
             table.AddRoute(route1.Object).AddRoute(route2.Object).AddRoute(route3.Object);
 
-            table.GetRoute(new OwinRequest()).Should().Be(route2.Object);
+            table.GetHandler(new OwinRequest()).Should().Be(handler.Object);
         }
 
         [Test]
         public void GetRouteEmptyTable()
         {
-            table.GetRoute(new OwinRequest()).Should().BeNull();
+            table.GetHandler(new OwinRequest()).Should().BeNull();
         }
 
         [Test]
@@ -84,7 +104,7 @@ namespace Mezm.Owin.Razor.Tests.Routing
 
             table.AddRoute(route1.Object).AddRoute(route2.Object).AddRoute(route3.Object);
 
-            table.GetRoute(new OwinRequest()).Should().BeNull();
+            table.GetHandler(new OwinRequest()).Should().BeNull();
         }
     }
 }

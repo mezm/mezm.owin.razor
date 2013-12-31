@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 
 using Microsoft.Owin.FileSystems;
@@ -34,12 +36,8 @@ namespace Mezm.Owin.Razor.Routing
             return this;
         }
 
-        public IRouteTable AddFileRoute(string name, string urlPath, string filename)
+        public IRouteTable AddFileRoute(string urlPath, string filename)
         {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                throw new ArgumentNullException("name");
-            }
             if (string.IsNullOrWhiteSpace(urlPath))
             {
                 throw new ArgumentNullException("urlPath");
@@ -49,13 +47,21 @@ namespace Mezm.Owin.Razor.Routing
                 throw new ArgumentNullException("filename");
             }
 
-            var route = new SingleFileRoute(fileSystem, name, urlPath, filename);
+            IFileInfo fileInfo;
+            if (!fileSystem.TryGetFileInfo(filename, out fileInfo))
+            {
+                throw new IOException(string.Format(CultureInfo.CurrentCulture, "File '{0}' was not found.", filename));
+            }
+
+            var handler = new SimpleRequestHandler(fileInfo, x => new object());
+            var route = new SingleFileRoute(urlPath, handler);
             return AddRoute(route);
         }
 
-        public IRoute GetRoute(OwinRequest request)
+        public IRequestHandler GetHandler(OwinRequest request)
         {
-            return routes.FirstOrDefault(x => x.CanRoute(request));
+            var route = routes.FirstOrDefault(x => x.CanRoute(request));
+            return route != null ? route.GetHandler(request) : null;
         }
     }
 }

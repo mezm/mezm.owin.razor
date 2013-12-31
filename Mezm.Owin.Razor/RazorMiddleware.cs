@@ -1,12 +1,11 @@
 ﻿using System;
+using System.Text;
 using System.Threading.Tasks;
 
 using Mezm.Owin.Razor.Rendering;
 using Mezm.Owin.Razor.Routing;
 
 using Owin.Types;
-
-using Encoding = System.Text.Encoding;
 
 namespace Mezm.Owin.Razor
 {
@@ -37,15 +36,16 @@ namespace Mezm.Owin.Razor
                 throw new ArgumentNullException("next");
             }
 
-            var route = routeTable.GetRoute(request);
-            if (route == null)
+            var handler = routeTable.GetHandler(request);
+            if (handler == null)
             {
                 await next();
                 return;
             }
 
-            var template = await route.GetTemplate(request);
-            var output = await razorRenderer.Render(template, new object());
+            var template = await handler.GetTemplate(request);
+            var model = await handler.GetModel(request);
+            var output = await razorRenderer.Render(template, model);
 
             response.ContentType = "text/html";
             var buffer = Encoding.Default.GetBytes(output);

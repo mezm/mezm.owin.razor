@@ -14,8 +14,8 @@ namespace Mezm.Owin.Razor.Example
             appBuilder.UseErrorPage();
 
             var routes = new RouteTable(new PhysicalFileSystem("Views"))
-                .AddFileRoute("index", "/", "index.cshtml")
-                .AddFileRoute("about", "/about/me", "about.cshtml");
+                .AddFileRoute("/", "index.cshtml")
+                .AddFileRoute("/about/me", "about.cshtml");
 
             var renderer = new RazorRenderer();
             var middleware = new RazorMiddleware(routes, renderer);

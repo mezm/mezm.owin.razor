@@ -42,10 +42,11 @@ namespace Mezm.Owin.Razor.Tests
         [Test]
         public void HandleRazorRequest()
         {
-            var route = new Mock<IRoute>();
-            route.Setup(x => x.GetTemplate(request)).Returns(Task.FromResult("the _template_"));
-            table.Setup(x => x.GetRoute(request)).Returns(route.Object);
-            renderer.Setup(x => x.Render("the _template_", It.IsAny<object>())).Returns(Task.FromResult("*output*"));
+            var handler = new Mock<IRequestHandler>();
+            handler.Setup(x => x.GetTemplate(request)).Returns(Task.FromResult("the _template_"));
+            handler.Setup(x => x.GetModel(request)).Returns(Task.FromResult((object)123));
+            table.Setup(x => x.GetHandler(request)).Returns(handler.Object);
+            renderer.Setup(x => x.Render("the _template_", 123)).Returns(Task.FromResult("*output*"));
 
             middleware.Handle(request, response, () => Task.Run(() => Assert.Fail())).Wait();
 
@@ -61,7 +62,7 @@ namespace Mezm.Owin.Razor.Tests
         public void HandleOtherRequest()
         {
             var calledNext = false;
-            table.Setup(x => x.GetRoute(request)).Returns((IRoute)null);
+            table.Setup(x => x.GetHandler(request)).Returns((IRequestHandler)null);
 
             middleware.Handle(request, response, () => Task.Run(() => calledNext = true)).Wait();
             

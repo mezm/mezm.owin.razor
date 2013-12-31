@@ -69,6 +69,7 @@
     <Compile Include="RazorMiddlewareTests.cs" />
     <Compile Include="Rendering\RazorRendererTests.cs" />
     <Compile Include="Routing\RouteTableTests.cs" />
+    <Compile Include="Routing\SimpleRequestHandlerTests.cs" />
     <Compile Include="Routing\SingleFileRouteTests.cs" />
   </ItemGroup>
   <ItemGroup>
