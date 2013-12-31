@@ -1,8 +1,6 @@
 ﻿using Mezm.Owin.Razor.Rendering;
 using Mezm.Owin.Razor.Routing;
 
-using Microsoft.Owin.FileSystems;
-
 using Owin;
 
 namespace Mezm.Owin.Razor.Example
@@ -13,9 +11,9 @@ namespace Mezm.Owin.Razor.Example
         {
             appBuilder.UseErrorPage();
 
-            var routes = new RouteTable(new PhysicalFileSystem("Views"))
-                .AddFileRoute("/", "index.cshtml")
-                .AddFileRoute("/about/me", "about.cshtml");
+            var routes = new RouteTable()
+                .AddFileRoute("/", "Views/index.cshtml")
+                .AddFileRoute("/about/me", "Views/about.cshtml", new AboutMeModel { Name = "Val" });
 
             var renderer = new RazorRenderer();
             var middleware = new RazorMiddleware(routes, renderer);

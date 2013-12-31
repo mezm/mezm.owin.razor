@@ -1,11 +1,6 @@
-﻿using System.Collections.Generic;
-using System.IO;
-
-using FluentAssertions;
+﻿using FluentAssertions;
 
 using Mezm.Owin.Razor.Routing;
-
-using Microsoft.Owin.FileSystems;
 
 using Moq;
 
@@ -18,38 +13,12 @@ namespace Mezm.Owin.Razor.Tests.Routing
     [TestFixture]
     public class RouteTableTests
     {
-        private Mock<IFileSystem> fileSystem;
-
         private RouteTable table;
 
         [SetUp]
         public void Init()
         {
-            fileSystem = new Mock<IFileSystem>();
-            table = new RouteTable(fileSystem.Object);
-        }
-        
-        [Test]
-        public void AddRouteAndGetFileHandler()
-        {
-            var fileInfo = new Mock<IFileInfo>();
-            var fileInfoObject = fileInfo.Object;
-            fileSystem.Setup(x => x.TryGetFileInfo("views\\test.cshtml", out fileInfoObject)).Returns(true);
-
-            table.AddFileRoute("/a/b", "views\\test.cshtml");
-            
-            var handler = table.GetHandler(new OwinRequest(new Dictionary<string, object>()) { Path = "/a/b" });
-            handler.Should().NotBeNull().And.BeOfType<SimpleRequestHandler>();
-        }
-
-        [Test]
-        [ExpectedException(typeof(IOException))]
-        public void AddFileRouteForNotExistingFile()
-        {
-            IFileInfo fileInfoObject;
-            fileSystem.Setup(x => x.TryGetFileInfo("views\\test.cshtml", out fileInfoObject)).Returns(false);
-
-            table.AddFileRoute("/a/b", "views\\test.cshtml");
+            table = new RouteTable();
         }
 
         [Test]

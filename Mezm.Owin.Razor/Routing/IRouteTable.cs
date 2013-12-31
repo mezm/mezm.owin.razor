@@ -6,8 +6,6 @@ namespace Mezm.Owin.Razor.Routing
     {
         IRouteTable AddRoute(IRoute route);
 
-        IRouteTable AddFileRoute(string urlPath, string filename);
-
         IRequestHandler GetHandler(OwinRequest request);
     }
 }

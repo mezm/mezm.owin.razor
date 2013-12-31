@@ -65,6 +65,7 @@
     <Compile Include="Rendering\IRazorRenderer.cs" />
     <Compile Include="RazorMiddleware.cs" />
     <Compile Include="Rendering\RazorRenderer.cs" />
+    <Compile Include="RouteTableExtensions.cs" />
     <Compile Include="Routing\IRequestHandler.cs" />
     <Compile Include="Routing\IRoute.cs" />
     <Compile Include="Routing\IRouteTable.cs" />
