@@ -1,5 +1,4 @@
-﻿using Mezm.Owin.Razor.Rendering;
-using Mezm.Owin.Razor.Routing;
+﻿using Mezm.Owin.Razor.Routing;
 
 using Owin;
 
@@ -10,15 +9,14 @@ namespace Mezm.Owin.Razor.Example
         public void Configuration(IAppBuilder appBuilder)
         {
             appBuilder.UseErrorPage();
+            appBuilder.UseRazor(InitRoutes);
+        }
 
-            var routes = new RouteTable()
+        private static void InitRoutes(IRouteTable table)
+        {
+            table
                 .AddFileRoute("/", "Views/index.cshtml")
                 .AddFileRoute("/about/me", "Views/about.cshtml", new AboutMeModel { Name = "Val" });
-
-            var renderer = new RazorRenderer();
-            var middleware = new RazorMiddleware(routes, renderer);
-
-            appBuilder.UseHandlerAsync(middleware.Handle);
-        } 
+        }
     }
 }
