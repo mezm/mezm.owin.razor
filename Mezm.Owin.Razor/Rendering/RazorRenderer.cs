@@ -5,7 +5,7 @@ namespace Mezm.Owin.Razor.Rendering
 {
     public class RazorRenderer : IRazorRenderer
     {
-        public Task<string> Render(string template, object model)
+        public Task<string> Render(string template, object model, string templateIdentity = null)
         {
             if (model == null)
             {
@@ -16,7 +16,12 @@ namespace Mezm.Owin.Razor.Rendering
                 throw new ArgumentNullException("template");
             }
 
-            return Task.Run(() => RazorEngine.Razor.Parse(template, model));
+            return
+                Task.Run(
+                    () =>
+                        string.IsNullOrWhiteSpace(templateIdentity)
+                            ? RazorEngine.Razor.Parse(template, model)
+                            : RazorEngine.Razor.Parse(template, model, templateIdentity));
         }
     }
 }

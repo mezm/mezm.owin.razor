@@ -40,5 +40,10 @@ namespace Mezm.Owin.Razor.Routing
         {
             return Task.Run(() => modelProvider(request));
         }
+
+        public string GetIdentity(OwinRequest request)
+        {
+            return file.PhysicalPath;
+        }
     }
 }

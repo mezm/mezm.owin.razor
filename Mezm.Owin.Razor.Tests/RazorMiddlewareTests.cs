@@ -45,8 +45,9 @@ namespace Mezm.Owin.Razor.Tests
             var handler = new Mock<IRequestHandler>();
             handler.Setup(x => x.GetTemplate(request)).Returns(Task.FromResult("the _template_"));
             handler.Setup(x => x.GetModel(request)).Returns(Task.FromResult((object)123));
+            handler.Setup(x => x.GetIdentity(request)).Returns("id");
             table.Setup(x => x.GetHandler(request)).Returns(handler.Object);
-            renderer.Setup(x => x.Render("the _template_", 123)).Returns(Task.FromResult("*output*"));
+            renderer.Setup(x => x.Render("the _template_", 123, "id")).Returns(Task.FromResult("*output*"));
 
             middleware.Handle(request, response, () => Task.Run(() => Assert.Fail())).Wait();
 

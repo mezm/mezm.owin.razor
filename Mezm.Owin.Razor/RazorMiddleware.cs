@@ -45,7 +45,8 @@ namespace Mezm.Owin.Razor
 
             var template = await handler.GetTemplate(request);
             var model = await handler.GetModel(request);
-            var output = await razorRenderer.Render(template, model);
+            var templateIdentity = handler.GetIdentity(request);
+            var output = await razorRenderer.Render(template, model, templateIdentity);
 
             response.ContentType = "text/html";
             var buffer = Encoding.Default.GetBytes(output);

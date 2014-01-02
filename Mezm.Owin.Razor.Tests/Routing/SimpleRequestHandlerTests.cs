@@ -37,5 +37,14 @@ namespace Mezm.Owin.Razor.Tests.Routing
             var handler = new SimpleRequestHandler(new Mock<IFileInfo>().Object, x => "abc-def");
             handler.GetModel(new OwinRequest()).Result.Should().Be("abc-def");
         }
+
+        [Test]
+        public void GetIdentity()
+        {
+            var file = new Mock<IFileInfo>();
+            file.Setup(x => x.PhysicalPath).Returns("c:\\tmp\\template.cshtml");
+            var handler = new SimpleRequestHandler(file.Object, x => "abc-def");
+            handler.GetIdentity(new OwinRequest()).Should().Be("c:\\tmp\\template.cshtml");
+        }
     }
 }

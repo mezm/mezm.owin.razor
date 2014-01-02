@@ -4,6 +4,6 @@ namespace Mezm.Owin.Razor.Rendering
 {
     public interface IRazorRenderer
     {
-        Task<string> Render(string template, object model);
+        Task<string> Render(string template, object model, string templateIdentity = null);
     }
 }

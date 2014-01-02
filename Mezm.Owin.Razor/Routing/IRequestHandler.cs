@@ -9,5 +9,7 @@ namespace Mezm.Owin.Razor.Routing
         Task<string> GetTemplate(OwinRequest request);
 
         Task<object> GetModel(OwinRequest request);
+
+        string GetIdentity(OwinRequest request);
     }
 }
