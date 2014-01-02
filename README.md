@@ -1,10 +1,17 @@
 Mezm.Owin.Razor
-===============
+---------------
 
 Implementation of Razor templating with OWIN
 
+Instalation
+-----------
+
+```
+Install-Package Mezm.Owin.Razor -Pre
+```
+
 Using
-=====
+-----
 
 ```csharp
 public class Startup
