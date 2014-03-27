@@ -8,9 +8,9 @@ namespace Mezm.Owin.Razor.Example
     {
         public static void Main()
         {
-            using (WebApp.Start<Startup>(new StartOptions("http://localhost:9999")))
+            using (WebApp.Start<Startup>(new StartOptions { Port = 5000 }))
             {
-                Console.WriteLine("Started at http://localhost:9999");
+                Console.WriteLine("Started at http://localhost:5000");
                 Console.ReadLine();
             }
         }
