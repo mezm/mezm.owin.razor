@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Mezm.Owin.Razor</id>
+    <title>Mezm.Owin.Razor</title>
+    <version>0.1.1</version>
+    <authors>Val</authors>
+    <owners>Val</owners>
+    <projectUrl>https://github.com/mezm/mezm.owin.razor</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Implementation of Razor templating with OWIN</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2014</copyright>
+    <tags>OWIN Razor</tags>
+    <dependencies>
+      <dependency id="Microsoft.AspNet.Razor" version="3.1.1" />
+      <dependency id="Microsoft.Owin.FileSystems" version="2.1.0" />
+      <dependency id="Owin" version="1.0" />
+      <dependency id="Owin.Extensions" version="0.8.5" />
+      <dependency id="Owin.Types" version="0.8.5" />
+      <dependency id="RazorEngine" version="3.4.1" />
+    </dependencies>
+  </metadata>
+</package>
