@@ -3,7 +3,7 @@
   <metadata>
     <id>Mezm.Owin.Razor</id>
     <title>Mezm.Owin.Razor</title>
-    <version>0.1.1</version>
+    <version>@build.number@</version>
     <authors>Val</authors>
     <owners>Val</owners>
     <projectUrl>https://github.com/mezm/mezm.owin.razor</projectUrl>

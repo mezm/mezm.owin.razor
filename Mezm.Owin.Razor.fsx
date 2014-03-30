@@ -8,7 +8,7 @@ let appReferences = !! "**/*.csproj" -- "**/*.Tests.csproj"
 let testModuleReferences = !! "**/*.Tests.csproj"
 let nuspecFile = "./Mezm.Owin.Razor.nuspec"
 let nuspecReferences = ["Mezm.Owin.Razor.dll"; "Mezm.Owin.Razor.pdb"]
-let version = "0.1.1"
+let version = "0.1.2"
 
 Target "Clean" (fun _ -> 
     CleanDirs [buildDir; testDir; packageDir]
