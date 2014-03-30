@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 
 using Mezm.Owin.Razor.Routing;
-
+using Microsoft.Owin.FileSystems;
 using Moq;
 
 using NUnit.Framework;
@@ -18,7 +18,7 @@ namespace Mezm.Owin.Razor.Tests.Routing
         [SetUp]
         public void Init()
         {
-            table = new RouteTable();
+            table = new RouteTable(new PhysicalFileSystem(""));
         }
 
         [Test]

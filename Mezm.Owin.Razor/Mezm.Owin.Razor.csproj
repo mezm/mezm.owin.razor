@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RazorExtensions.cs" />
+    <Compile Include="Rendering\FileSystemTempleteResolver.cs" />
     <Compile Include="Rendering\IRazorRenderer.cs" />
     <Compile Include="RazorMiddleware.cs" />
     <Compile Include="Rendering\RazorRenderer.cs" />

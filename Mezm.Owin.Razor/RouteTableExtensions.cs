@@ -12,12 +12,12 @@ namespace Mezm.Owin.Razor
 {
     public static class RouteTableExtensions
     {
-        public static IRouteTable AddFileRoute(this IRouteTable routeTable, string urlPath, string filename, object model = null, IFileSystem fileSystem = null)
+        public static IRouteTable AddFileRoute(this IRouteTable routeTable, string urlPath, string filename, object model = null)
         {
-            return AddFileRoute(routeTable, urlPath, filename, x => model ?? new object(), fileSystem);
+            return AddFileRoute(routeTable, urlPath, filename, x => model ?? new object());
         }
 
-        public static IRouteTable AddFileRoute(this IRouteTable routeTable, string urlPath, string filename, Func<OwinRequest, object> modelProvider, IFileSystem fileSystem = null)
+        public static IRouteTable AddFileRoute(this IRouteTable routeTable, string urlPath, string filename, Func<OwinRequest, object> modelProvider)
         {
             if (routeTable == null)
             {
@@ -36,9 +36,8 @@ namespace Mezm.Owin.Razor
                 throw new ArgumentNullException("filename");
             }
 
-            fileSystem = fileSystem ?? new PhysicalFileSystem("");
             IFileInfo fileInfo;
-            if (!fileSystem.TryGetFileInfo(filename, out fileInfo))
+            if (!routeTable.FileSystem.TryGetFileInfo(filename, out fileInfo))
             {
                 throw new IOException(string.Format(CultureInfo.CurrentCulture, "File '{0}' was not found.", filename));
             }

@@ -1,4 +1,5 @@
-﻿using Owin.Types;
+﻿using Microsoft.Owin.FileSystems;
+using Owin.Types;
 
 namespace Mezm.Owin.Razor.Routing
 {
@@ -7,5 +8,7 @@ namespace Mezm.Owin.Razor.Routing
         IRouteTable AddRoute(IRoute route);
 
         IRequestHandler GetHandler(OwinRequest request);
+
+        IFileSystem FileSystem { get; }
     }
 }

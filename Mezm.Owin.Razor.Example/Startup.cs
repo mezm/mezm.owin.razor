@@ -16,7 +16,8 @@ namespace Mezm.Owin.Razor.Example
         {
             table
                 .AddFileRoute("/", "Views/index.cshtml")
-                .AddFileRoute("/about/me", "Views/about.cshtml", new AboutMeModel { Name = "Val" });
+                .AddFileRoute("/about/me", "Views/about.cshtml", new AboutMeModel { Name = "Val" })
+                .AddFileRoute("/a", "Views/with_layout.cshtml");
         }
     }
 }

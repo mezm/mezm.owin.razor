@@ -26,7 +26,7 @@ namespace Mezm.Owin.Razor.Tests
         public void Init()
         {
             fileSystem = new Mock<IFileSystem>();
-            table = new RouteTable();
+            table = new RouteTable(fileSystem.Object);
         }
 
         [Test]
@@ -36,7 +36,7 @@ namespace Mezm.Owin.Razor.Tests
             var fileInfoObject = fileInfo.Object;
             fileSystem.Setup(x => x.TryGetFileInfo("views\\test.cshtml", out fileInfoObject)).Returns(true);
 
-            table.AddFileRoute("/a/b", "views\\test.cshtml", fileSystem: fileSystem.Object);
+            table.AddFileRoute("/a/b", "views\\test.cshtml");
 
             var handler = table.GetHandler(new OwinRequest(new Dictionary<string, object>()) { Path = "/a/b" });
             handler.Should().NotBeNull().And.BeOfType<SimpleRequestHandler>();
@@ -50,7 +50,7 @@ namespace Mezm.Owin.Razor.Tests
             var fileInfoObject = fileInfo.Object;
             fileSystem.Setup(x => x.TryGetFileInfo("views\\test.cshtml", out fileInfoObject)).Returns(true);
 
-            table.AddFileRoute("/a/b", "views\\test.cshtml", 45.3, fileSystem.Object);
+            table.AddFileRoute("/a/b", "views\\test.cshtml", 45.3);
 
             var handler = table.GetHandler(new OwinRequest(new Dictionary<string, object>()) { Path = "/a/b" });
             handler.Should().NotBeNull().And.BeOfType<SimpleRequestHandler>();
@@ -64,7 +64,7 @@ namespace Mezm.Owin.Razor.Tests
             var fileInfoObject = fileInfo.Object;
             fileSystem.Setup(x => x.TryGetFileInfo("views\\test.cshtml", out fileInfoObject)).Returns(true);
 
-            table.AddFileRoute("/a/b", "views\\test.cshtml", x => x.LocalPort, fileSystem.Object);
+            table.AddFileRoute("/a/b", "views\\test.cshtml", x => x.LocalPort);
 
             var handler = table.GetHandler(new OwinRequest(new Dictionary<string, object>()) { Path = "/a/b" });
             handler.Should().NotBeNull().And.BeOfType<SimpleRequestHandler>();
