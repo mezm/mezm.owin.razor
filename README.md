@@ -7,13 +7,16 @@ Instalation
 -----------
 
 ```
-Install-Package Mezm.Owin.Razor -Pre
+Install-Package Mezm.Owin.Razor
 ```
 
 Using
 -----
 
 ```csharp
+using Mezm.Owin.Razor;
+using Mezm.Owin.Razor.Routing;
+
 public class Startup
 {
   public void Configuration(IAppBuilder appBuilder)
