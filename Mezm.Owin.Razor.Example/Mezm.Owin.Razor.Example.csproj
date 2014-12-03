@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <EmbeddedResource Include="EmbeddedViews\index.cshtml" />
     <None Include="packages.config" />
     <None Include="Views\about.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
